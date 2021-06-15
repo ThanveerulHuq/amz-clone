@@ -1,39 +1,38 @@
 package com.amz.clone.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.amz.clone.model.Category;
 import com.amz.clone.repository.CategoryRepository;
 
-@Service("categoryService")
+@Service
 public class CategoryService {
-	
-	@Autowired
-	CategoryRepository CategoryRepository;
-	
-	public ResponseEntity<List<Category>> getAllCategory(String title) {
-		 try {
-			    List<Category> category = new ArrayList<Category>();
 
-			    if (title == null)
-			    	CategoryRepository.findAll().forEach(category::add);
-			    else
-			    	CategoryRepository.findByNameContaining(title).forEach(category::add);
+    @Autowired
+    CategoryRepository categoryRepository;
 
-			    if (category.isEmpty()) {
-			      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			    }
+    public List<Category> getAllCategory(final String parent) {
+        // try {
 
-			    return new ResponseEntity<>(category, HttpStatus.OK);
-			  } catch (Exception e) {
-			    return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-			  }
-	}
+        if (parent == null)
+            return categoryRepository.findAll();
+        else
+            return categoryRepository.findByParent(parent);
+
+        // if (category.isEmpty()) {
+        // return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        // }
+
+        // } catch (Exception e) {
+        // e.printStackTrace()
+        //
+    }
+
+    public Category addCategory(final Category category) {
+        return categoryRepository.save(category);
+    }
 
 }
