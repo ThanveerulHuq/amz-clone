@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.amz.clone.model.Category;
 import com.amz.clone.service.CategoryService;
 
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/category")
 public class CategoryController {
